@@ -20,7 +20,7 @@ spec:
         version: ${DEPLOY_VERSION}
     spec:
       nodeSelector:
-        nodePool: library-main
+        nodePool: moneeda-trade
       terminationGracePeriodSeconds: 10
       containers:
         - name: library-app
