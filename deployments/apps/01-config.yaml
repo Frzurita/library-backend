@@ -5,4 +5,4 @@ metadata:
   namespace: moneeda-backend
 data:
   NODE_ENV: "development"
-  PORT: "4000"
+  PORT: "3000"

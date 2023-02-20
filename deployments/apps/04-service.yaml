@@ -10,6 +10,6 @@ spec:
   ports:
     - port: 80
       protocol: TCP
-      targetPort: 4000
+      targetPort: 3000
   selector:
     microservice: library-app
