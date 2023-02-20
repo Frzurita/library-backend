@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: library-app-service
+  namespace: moneeda-backend
+  labels:
+    microservice: library-app
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 4000
+  selector:
+    microservice: library-app

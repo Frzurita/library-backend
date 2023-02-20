@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: library-app
+  namespace: moneeda-backend
+spec:
+  selector:
+    matchLabels:
+      microservice: library-app
+  replicas: 3
+  progressDeadlineSeconds: 30
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        microservice: library-app
+        version: ${DEPLOY_VERSION}
+    spec:
+      nodeSelector:
+        nodePool: library-main
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: library-app
+          envFrom:
+            - secretRef:
+                name: library-app-secret
+            - configMapRef:
+                name: library-app-config
+          image: library-app
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sleep", "15"]
+          resources:
+            requests:
+              memory: 200Mi
+              cpu: 100m
+            limits:
+              memory: 400Mi
+              cpu: 200m
