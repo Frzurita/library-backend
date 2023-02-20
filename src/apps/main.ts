@@ -7,7 +7,7 @@ config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  app.enableCors();
   // Swagger init
   const config = new DocumentBuilder()
     .addBearerAuth()
