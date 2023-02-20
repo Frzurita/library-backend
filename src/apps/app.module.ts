@@ -27,7 +27,7 @@ import { AuthStrategyJWT } from '../contexts/auth/infrastructure/auth.strategy.s
       },
     }),
   ],
-  controllers: [HealthCheckController, BookController, AuthController],
+  controllers: [AuthController, BookController, HealthCheckController],
   providers: [
     AuthStrategyJWT,
     PassportModule,
@@ -38,4 +38,4 @@ import { AuthStrategyJWT } from '../contexts/auth/infrastructure/auth.strategy.s
     ...BookProviders,
   ],
 })
-export class AppModule {}
+export class AppModule { }
