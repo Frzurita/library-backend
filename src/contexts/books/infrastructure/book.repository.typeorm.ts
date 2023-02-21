@@ -1,5 +1,9 @@
 import { Repository } from 'typeorm';
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Nullable } from '../../../shared/domain/utility_types/nullable.utility_type';
 import { Book } from '../domain/book.aggregate';
@@ -13,10 +17,23 @@ export class BookRepositoryTypeOrm implements BookRepository {
   constructor(
     @InjectRepository(BookTypeOrm)
     private bookEntity: Repository<BookTypeOrm>,
-  ) {}
+  ) { }
 
   async create(book: Book): Promise<void> {
-    await this.bookEntity.insert(book.toPrimitives());
+    try {
+      await this.bookEntity.insert(book.toPrimitives());
+    } catch (error) {
+      // TODO: Create an abstaction to split responsibilites
+      if (error.code === '23505') {
+        throw new BadRequestException({
+          error: 'Duplicate entry',
+          message: 'Name already exists',
+          statusCode: 400,
+        });
+      } else {
+        throw new InternalServerErrorException();
+      }
+    }
   }
 
   async update(book: Book): Promise<void> {

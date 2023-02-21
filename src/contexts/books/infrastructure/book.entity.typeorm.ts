@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-@Unique(['name'])
+@Unique(['name', 'userId'])
 export class Book extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
